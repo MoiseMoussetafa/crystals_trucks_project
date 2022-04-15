@@ -9,13 +9,35 @@ FILENAME = "map.txt"
 GRID_OPEN = "### Grid ###"
 GRID_CLOSE = "### End Grid ###"
 
+GRID = None
+
+class Camion:
+    def __init__(self, id, x, y) -> None:
+        self._id = id
+        self.x = x
+        self.y = y
+
+    def move(self, x, y):
+        global GRID
+        self.x = x
+        self.y = y
+        print(f"0 MOVE {self._id} {x} {y}")
+        
+        while GRID[y][x] > 0:
+            self.dig()
+            GRID[y][x] -= 1
+        
+    def dig(self):
+        print(f"0 DIG {self._id} {self.x} {self.y}")
+        
+
 def generate_map(filename):
     with open(filename, 'w') as f:
         with redirect_stdout(f):
             game.init_game(4)
            
-def parse_map(filename):
-    map = []
+def parse_game(filename):
+    grid = []
     
     with open(filename, 'r') as f:
         is_in_grid = False
@@ -28,9 +50,9 @@ def parse_map(filename):
                 continue
 
             if is_in_grid:
-                map.append([x for x in line.rstrip("\n").replace(" ", "0")])                   
+                grid.append([int(x) for x in line.rstrip("\n").replace(" ", "0")])                   
 
-    return map
+    return grid
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -48,6 +70,11 @@ if __name__ == "__main__":
         print("File not found.")
         sys.exit(-1)    
     
-    print(parse_map(filename))
-    print("test")
+    GRID = parse_game(filename)
+    camion = Camion(0, 0, 0)
     
+    with open(filename, 'a') as f:
+        with redirect_stdout(f):
+            for index_y, y in enumerate(GRID):
+                for index_x, x in enumerate(y):
+                    camion.move(index_x, index_y)
