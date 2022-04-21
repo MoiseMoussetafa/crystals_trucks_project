@@ -1,4 +1,4 @@
-import src.main as main
+import src.trucks as trucks
 
 
 def test_create_game_seed_0():
@@ -24,7 +24,7 @@ def test_create_game_seed_0():
     ref_width = 16
     ref_height = 15
 
-    assert main.create_game(seed, filename) == (
+    assert trucks.create_game(seed, filename) == (
         ref_nb_camions, ref_grid, ref_width, ref_height
     )
 
@@ -47,6 +47,6 @@ def test_create_game_seed_5():
     ref_width = 17
     ref_height = 10
 
-    assert main.create_game(seed, filename) == (
+    assert trucks.create_game(seed, filename) == (
         ref_nb_camions, ref_grid, ref_width, ref_height
     )

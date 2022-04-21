@@ -1,4 +1,4 @@
-import src.main
+import src.trucks
 import argparse
 
 
@@ -12,4 +12,4 @@ if __name__ == "__main__":
     seed = args.seed
     filename = args.name
 
-    src.main.main(seed, filename)
+    src.trucks.main(seed, filename)
