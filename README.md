@@ -1,7 +1,9 @@
 # Crystals vs Trucks
-![Tests sur release](https://github.com/MoiseMoussetafa/crystals_trucks_project/actions/workflows/python.yml/badge.svg)
+![Tests sur release-main](https://github.com/MoiseMoussetafa/crystals_trucks_project/actions/workflows/python.yml/badge.svg)
 
-![image](https://user-images.githubusercontent.com/72506988/164490624-32c954f8-637e-418a-afa3-6645e6296fa3.png)
+<p align="center">  
+ <img src=https://user-images.githubusercontent.com/72506988/164490624-32c954f8-637e-418a-afa3-6645e6296fa3.png width="500" height="500">
+</p>
 
 ### Groupe : 
 - Léo CHAMONT-HARO
