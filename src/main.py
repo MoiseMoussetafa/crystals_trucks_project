@@ -1,6 +1,6 @@
 from contextlib import redirect_stdout
 import pathlib
-import game
+from src import game
 import argparse
 import sys
 
