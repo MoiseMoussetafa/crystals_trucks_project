@@ -4,14 +4,18 @@ import game
 import argparse
 import sys
 
-FILENAME = "map.txt"
-
 CAMIONS_FLAG = "trucks:"
+WIDTH_FLAG = "width:"
+HEIGHT_FLAG = "height:"
 GRID_OPEN = "### Grid ###"
 GRID_CLOSE = "### End Grid ###"
 
 NB_CAMIONS = 0
 GRID = None
+WIDTH = 0
+HEIGHT = 0
+
+NB_TOUR = 0
 
 class Camion:
     def __init__(self, id, x, y) -> None:
@@ -19,30 +23,31 @@ class Camion:
         self.x = x
         self.y = y
 
-    def move(self, tour_id, x, y):
+    def move(self, x, y):
         global GRID
+        global NB_TOUR
         
-        if self.x != x or self.y != self.y:
+        if self.x != x or self.y != y:
             self.x = x
             self.y = y
-            print(f"{tour_id} MOVE {self._id} {x} {y}")
+            print(f"{NB_TOUR} MOVE {self._id} {x} {y}")
+            NB_TOUR += 1
         
-        while GRID[y][x] > 0:
-            self.dig(tour_id)
-            GRID[y][x] -= 1
-            tour_id += 1
+        while GRID[self.y][self.x] > 0:
+            self.dig()
+            GRID[self.y][self.x] -= 1
         
-    def dig(self, tour_id):
-        print(f"{tour_id} DIG {self._id} {self.x} {self.y}")
-        
-
-def generate_map(filename):
+    def dig(self):
+        global NB_TOUR
+        print(f"{NB_TOUR} DIG {self._id} {self.x} {self.y}")
+        NB_TOUR += 1
+           
+def create_game(seed: int, filename: str) -> tuple:
+    grid = []
+    
     with open(filename, 'w') as f:
         with redirect_stdout(f):
-            game.init_game(4)
-           
-def parse_game(filename):
-    grid = []
+            game.init_game(seed)
     
     with open(filename, 'r') as f:
         is_in_grid = False
@@ -58,34 +63,49 @@ def parse_game(filename):
                 grid.append([int(x) for x in line.rstrip("\n").replace(" ", "0")])
             elif CAMIONS_FLAG in line:
                 nb_camions = int(line.translate([" \n", ""]).lstrip(CAMIONS_FLAG))
+            elif WIDTH_FLAG in line:
+                width = int(line.translate([" \n", ""]).lstrip(WIDTH_FLAG))
+            elif HEIGHT_FLAG in line:
+                height = int(line.translate([" \n", ""]).lstrip(HEIGHT_FLAG))
 
-    return nb_camions, grid
+    return nb_camions, grid, width, height
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--map", type=str)
+    parser.add_argument("seed", type=int)
+    parser.add_argument("name", type=str)
     
     args = parser.parse_args()
     
-    if args.map:
-        filename = args.map
-    else:
-        generate_map(FILENAME)
-        filename = FILENAME
+    seed = args.seed
+    filename = args.name
     
+    NB_CAMIONS, GRID, WIDTH, HEIGHT = create_game(seed, filename)
     if not pathlib.Path(filename).exists():
         print("File not found.")
-        sys.exit(-1)    
-    
-    NB_CAMIONS, GRID = parse_game(filename)
+        sys.exit(-1) 
+           
     camion = Camion(0, 0, 0)
     
-    print(NB_CAMIONS)
+    print(NB_CAMIONS, WIDTH, HEIGHT)
+    print(GRID)
     
     with open(filename, 'a') as f:
         with redirect_stdout(f):
-            tour = 0
-            for index_y, y in enumerate(GRID):
-                for index_x, x in enumerate(y):
-                    camion.move(tour, index_x, index_y)
-                    tour += 1
+            index_y = 0
+            while index_y < HEIGHT:
+                for index_x in range(0, WIDTH, 1):
+                    camion.move(index_x, index_y)
+                    
+                if index_y < HEIGHT-1:
+                    index_y += 1
+                else:
+                    break
+                
+                for index_x in range(WIDTH-1, -1, -1):
+                    camion.move(index_x, index_y)
+                    
+                if index_y < HEIGHT-1:
+                    index_y += 1
+                else:
+                    break
