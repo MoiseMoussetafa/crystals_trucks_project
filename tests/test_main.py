@@ -1,9 +1,10 @@
-import main
+import src.main as main
 
-def test_create_game():
+
+def test_create_game_seed_0():
     seed = 0
     filename = "test_map.txt"
-    
+
     ref_nb_camions = 2
     ref_grid = [[0, 0, 0, 0, 2, 0, 0, 2, 0, 2, 2, 1, 0, 0, 1, 2],
                 [0, 1, 2, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -22,6 +23,29 @@ def test_create_game():
                 [2, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0]]
     ref_width = 16
     ref_height = 15
+
+    assert main.create_game(seed, filename) == (
+        ref_nb_camions, ref_grid, ref_width, ref_height
+    )
+
+
+def test_create_game_seed_5():
+    seed = 5
+    filename = "test_map.txt"
+
+    ref_nb_camions = 3
+    ref_grid = [[2, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0, 1, 0, 1, 0, 2],
+                [0, 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 2, 1, 0, 2, 1, 2],
+                [0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 2, 0, 0, 2, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+                [2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 1, 1, 2, 2, 0, 0, 0],
+                [0, 1, 1, 2, 0, 0, 0, 1, 0, 2, 2, 0, 1, 0, 1, 2, 2],
+                [1, 1, 0, 2, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 1, 0],
+                [1, 1, 0, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 2, 2, 2, 0],
+                [0, 0, 0, 2, 0, 1, 1, 0, 0, 1, 0, 0, 1, 2, 2, 0, 0]]
+    ref_width = 17
+    ref_height = 10
 
     assert main.create_game(seed, filename) == (
         ref_nb_camions, ref_grid, ref_width, ref_height
