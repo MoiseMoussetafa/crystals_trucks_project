@@ -1,4 +1,3 @@
-# Fichier python pour Tests unitaires Git
 import pytest
 
 def inc(x):
