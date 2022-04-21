@@ -1,3 +1,4 @@
 arcade==2.6.3
 pyserial==3.5
 python-dev-tools
+requests==2.26.0
