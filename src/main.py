@@ -1,7 +1,6 @@
 from contextlib import redirect_stdout
 import pathlib
 from src import game
-import argparse
 import sys
 
 CAMIONS_FLAG = "trucks:"
@@ -75,15 +74,8 @@ def create_game(seed: int, filename: str) -> tuple:
     return nb_camions, grid, width, height
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("seed", type=int)
-    parser.add_argument("name", type=str)
-
-    args = parser.parse_args()
-
-    seed = args.seed
-    filename = args.name
+def main(seed, filename):
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT
 
     NB_CAMIONS, GRID, WIDTH, HEIGHT = create_game(seed, filename)
     if not pathlib.Path(filename).exists():
