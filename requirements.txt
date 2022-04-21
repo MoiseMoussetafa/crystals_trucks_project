@@ -6,7 +6,6 @@ py==1.11.0
 pyparsing==3.0.8
 pytest==7.1.1
 tomli==2.0.1
-
 flake8==3.9.2
 pytest-cov==2.12.1
 mypy===0.910
