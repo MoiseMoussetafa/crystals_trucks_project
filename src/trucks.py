@@ -2,6 +2,7 @@ from contextlib import redirect_stdout
 import pathlib
 from src import game
 import sys
+import itertools
 
 CAMIONS_FLAG = "trucks:"
 WIDTH_FLAG = "width:"
@@ -18,29 +19,45 @@ NB_TOUR = 0
 
 
 class Camion:
+    global NB_TOUR
+    global GRID
+
     def __init__(self, id, x, y) -> None:
         self._id = id
         self.x = x
         self.y = y
+        self.has_target = False
+        self.target_x, self.target_y = 0, 0
 
     def move(self, x, y):
-        global GRID
-        global NB_TOUR
-
-        if self.x != x or self.y != y:
-            self.x = x
-            self.y = y
-            print(f"{NB_TOUR} MOVE {self._id} {x} {y}")
-            NB_TOUR += 1
-
-        while GRID[self.y][self.x] > 0:
-            self.dig()
-            GRID[self.y][self.x] -= 1
+        if x > self.x:
+            self.x += 1
+        elif x < self.x:
+            self.x -= 1
+        elif y > self.y:
+            self.y += 1
+        elif y < self.y:
+            self.y -= 1
+        print(f"{NB_TOUR} MOVE {self._id} {self.x} {self.y}")
 
     def dig(self):
-        global NB_TOUR
         print(f"{NB_TOUR} DIG {self._id} {self.x} {self.y}")
-        NB_TOUR += 1
+
+    def set_target(self, target_x, target_y):
+        self.target_x = target_x
+        self.target_y = target_y
+        self.has_target = True
+
+    def progress(self):
+        if self.has_target:
+            if self.target_x == self.x and self.target_y == self.y:
+                if GRID[self.y][self.x] > 0:
+                    self.dig()
+                    GRID[self.y][self.x] -= 1
+                if GRID[self.y][self.x] == 0:
+                    self.has_target = False
+            else:
+                self.move(self.target_x, self.target_y)
 
 
 def create_game(seed: int, filename: str) -> tuple:
@@ -75,7 +92,7 @@ def create_game(seed: int, filename: str) -> tuple:
 
 
 def main(seed, filename):
-    global NB_CAMIONS, GRID, WIDTH, HEIGHT
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
 
     NB_CAMIONS, GRID, WIDTH, HEIGHT = create_game(seed, filename)
     if not pathlib.Path(filename).exists():
@@ -84,25 +101,24 @@ def main(seed, filename):
 
     camion = Camion(0, 0, 0)
 
-    print(NB_CAMIONS, WIDTH, HEIGHT)
-    print(GRID)
-
     with open(filename, 'a') as f:
         with redirect_stdout(f):
             index_y = 0
             while index_y < HEIGHT:
-                for index_x in range(0, WIDTH, 1):
-                    camion.move(index_x, index_y)
+                for index_x in itertools.chain(
+                        range(0, WIDTH, 1), range(WIDTH, -2, -1)):
+                    if index_x == WIDTH:
+                        index_y += 1
+                        index_x -= 1
+                    elif index_x == -1:
+                        index_y += 1
+                        index_x += 1
+                    if index_y >= HEIGHT:
+                        break
 
-                if index_y < HEIGHT-1:
-                    index_y += 1
-                else:
-                    break
+                    if GRID[index_y][index_x] > 0:
+                        camion.set_target(index_x, index_y)
 
-                for index_x in range(WIDTH-1, -1, -1):
-                    camion.move(index_x, index_y)
-
-                if index_y < HEIGHT-1:
-                    index_y += 1
-                else:
-                    break
+                    while GRID[index_y][index_x] > 0:
+                        camion.progress()
+                        NB_TOUR += 1
