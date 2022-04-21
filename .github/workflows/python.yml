@@ -28,10 +28,10 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
         
-    - name: autopep8
-      uses: peter-evans/autopep8@v1.2.1
-      with:
-        args: E101 
+
+    - name: Autopep8 Action
+      uses: creyD/autopep8_action@v2.1   
+    
     - name: Test with pytest
       run: |
         pytest
