@@ -90,6 +90,29 @@ def create_game(seed: int, filename: str) -> tuple:
 
     return nb_camions, grid, width, height
 
+def one_truck_zigzag(truck):
+    global GRID, WIDTH, HEIGHT, NB_TOUR
+
+    index_y = 0
+    while index_y < HEIGHT:
+        for index_x in itertools.chain(
+                range(0, WIDTH, 1), range(WIDTH, -2, -1)):
+            if index_x == WIDTH:
+                index_y += 1
+                index_x -= 1
+            elif index_x == -1:
+                index_y += 1
+                index_x += 1
+            if index_y >= HEIGHT:
+                break
+
+            if GRID[index_y][index_x] > 0:
+                truck.set_target(index_x, index_y)
+
+            while GRID[index_y][index_x] > 0:
+                truck.progress()
+                NB_TOUR += 1
+
 
 def main(seed, filename):
     global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
@@ -100,25 +123,7 @@ def main(seed, filename):
         sys.exit(-1)
 
     camion = Camion(0, 0, 0)
-
+    
     with open(filename, 'a') as f:
         with redirect_stdout(f):
-            index_y = 0
-            while index_y < HEIGHT:
-                for index_x in itertools.chain(
-                        range(0, WIDTH, 1), range(WIDTH, -2, -1)):
-                    if index_x == WIDTH:
-                        index_y += 1
-                        index_x -= 1
-                    elif index_x == -1:
-                        index_y += 1
-                        index_x += 1
-                    if index_y >= HEIGHT:
-                        break
-
-                    if GRID[index_y][index_x] > 0:
-                        camion.set_target(index_x, index_y)
-
-                    while GRID[index_y][index_x] > 0:
-                        camion.progress()
-                        NB_TOUR += 1
+            one_truck_zigzag(filename, camion)

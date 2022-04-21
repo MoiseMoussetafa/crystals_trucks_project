@@ -92,10 +92,24 @@ def test_truck_progress_dig_2(capsys):
     trucks.NB_TOUR = 0
     trucks.GRID = [[2]]
 
-    camion.progress()
+    while trucks.GRID[0][0] > 0:
+        camion.progress()
+        capture = capsys.readouterr()
+        assert capture.out == f"{trucks.NB_TOUR} DIG 0 0 0\n"
+        trucks.NB_TOUR += 1
+
+
+def test_truck_zigzag_carre(capsys):
+    camion = trucks.Camion(0, 0, 0)
+    trucks.NB_TOUR = 0
+    trucks.WIDTH, trucks.HEIGHT = (2, 2)
+    trucks.GRID = [[1, 1],
+                   [1, 1]]
+    expected = ["0 DIG 0 0 0", "1 MOVE 0 1 0",
+                "2 DIG 0 1 0", "3 MOVE 0 1 1",
+                "4 DIG 0 1 1", "5 MOVE 0 0 1",
+                "6 DIG 0 0 1"]
+
+    trucks.one_truck_zigzag(camion)
     capture = capsys.readouterr()
-    assert capture.out == "0 DIG 0 0 0\n"
-    trucks.NB_TOUR += 1
-    camion.progress()
-    capture = capsys.readouterr()
-    assert capture.out == "1 DIG 0 0 0\n"
+    assert capture.out.split('\n')[:-1] == expected
