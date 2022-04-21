@@ -1,4 +1,12 @@
-arcade==2.6.3
-pyserial==3.5
-python-dev-tools
-requests==2.26.0
+attrs==21.4.0
+iniconfig==1.1.1
+packaging==21.3
+pluggy==1.0.0
+py==1.11.0
+pyparsing==3.0.8
+pytest==7.1.1
+tomli==2.0.1
+
+flake8==3.9.2
+pytest-cov==2.12.1
+mypy===0.910
