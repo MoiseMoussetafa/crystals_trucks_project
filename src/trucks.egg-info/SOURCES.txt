@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/trucks/main.py
+src/trucks.egg-info/PKG-INFO
+src/trucks.egg-info/SOURCES.txt
+src/trucks.egg-info/dependency_links.txt
+src/trucks.egg-info/not-zip-safe
+src/trucks.egg-info/requires.txt
+src/trucks.egg-info/top_level.txt
+test/test_trucks.py
