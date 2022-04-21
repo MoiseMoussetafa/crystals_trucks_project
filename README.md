@@ -14,9 +14,9 @@
 
 ### Projet
 
-Réalisation d'un code permettant de résoudre le jeu suivant : https://github.com/vpoulailleau/crystal_trucks
+Réalisation d'un code permettant de résoudre le jeu suivant : https://github.com/vpoulailleau/crystal_trucks.  
 Le fichier `game.py` doit être récupéré du jeu original et ne doit pas être modifié.  
-Le code réalisé doit générer un fichier `.txt` qui peut être injecté dans le `viewer.py` du jeu original afin de le résoudre.
+Le code réalisé doit générer un fichier `.txt` qui peut être injecté dans le `viewer.py` du jeu original afin de le résoudre.  
 
 Source : https://github.com/jorisoffouga/methode_dev_collaboratif
 
