@@ -30,4 +30,18 @@ jobs:
     
     - name: Test with pytest
       run: |
-        python -m pytest --cov
+        python -m pytest --cov=myproj tests/
+
+    - name: Pytest Coverage Commentator
+      uses: coroo/pytest-coverage-commentator@v1.0.2
+      with:
+        pytest-coverage: pytest-coverage.txt
+        token: ${{ github.token }} 
+    - name: Python Cov
+      uses: orgoro/coverage@v2.1
+      with:
+        coverageFile: tests/
+        token: ${{ github.token }} 
+        thresholdAll: 0.0
+        thresholdNew: 0.0
+        thresholdModified: 0.0
