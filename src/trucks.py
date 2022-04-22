@@ -27,7 +27,9 @@ class Crystal:
     def dig(self):
         global GRID
         self.count -= 1
-        GRID[self.y][self.x] -= 1
+
+        if GRID:
+            GRID[self.y][self.x] -= 1
 
 
 class Camion:
