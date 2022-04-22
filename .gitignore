@@ -1,4 +1,4 @@
 **/__pycache__
 **/.vscode
-.coverage
-coverage.xml
+*coverage*
+**/*map*.txt
