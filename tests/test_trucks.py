@@ -78,6 +78,24 @@ def test_truck_creation_5_20_3():
     assert (camion._id, camion.x, camion.y) == (5, 20, 3)
 
 
+def test_truck_move_x_1(capsys):
+    camion = trucks.Camion(0, 0, 0)
+    trucks.NB_TOUR = 0
+    camion.move(1, 0)
+
+    captured = capsys.readouterr()
+    assert captured.out == "0 MOVE 0 1 0\n"
+
+
+def test_truck_move_diag(capsys):
+    camion = trucks.Camion(0, 0, 0)
+    trucks.NB_TOUR = 0
+    camion.move(1, 1)
+
+    captured = capsys.readouterr()
+    assert captured.out == "0 MOVE 0 1 0\n"
+
+
 def test_truck_dig_0_0(capsys):
     camion = trucks.Camion(0, 0, 0)
     camion.set_target(trucks.Crystal(0, 0, 1))
@@ -115,6 +133,7 @@ def test_truck_zigzag_carre(capsys):
     trucks.NB_TOUR = 0
     trucks.WIDTH, trucks.HEIGHT = (2, 2)
     trucks.GRID = [[1, 1], [1, 1]]
+    trucks.CRYSTALS = trucks.get_crystals_pos()
     expected = [
         "0 DIG 0 0 0",
         "1 MOVE 0 1 0",
@@ -125,6 +144,6 @@ def test_truck_zigzag_carre(capsys):
         "6 DIG 0 0 1",
     ]
 
-    trucks.one_truck_zigzag()
+    trucks.one_truck_zigzag(trucks.Camion(0, 0, 0))
     capture = capsys.readouterr()
     assert capture.out.split("\n")[:-1] == expected
