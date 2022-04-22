@@ -10,26 +10,31 @@ def test_create_game_seed_0():
     filename = MAP_FILE
 
     ref_nb_camions = 2
-    ref_grid = [[0, 0, 0, 0, 2, 0, 0, 2, 0, 2, 2, 1, 0, 0, 1, 2],
-                [0, 1, 2, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0],
-                [1, 0, 0, 2, 1, 0, 2, 1, 1, 0, 2, 0, 2, 1, 0, 2],
-                [0, 2, 2, 2, 2, 0, 1, 0, 0, 2, 0, 0, 2, 2, 0, 0],
-                [1, 2, 0, 2, 0, 2, 1, 1, 0, 2, 0, 1, 1, 2, 0, 0],
-                [0, 0, 0, 0, 2, 1, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
-                [2, 2, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1],
-                [1, 0, 0, 0, 1, 2, 2, 1, 0, 2, 0, 0, 2, 2, 1, 0],
-                [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-                [0, 1, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0],
-                [2, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 2, 1, 0, 0, 0],
-                [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
-                [0, 0, 0, 0, 2, 1, 1, 1, 0, 0, 1, 0, 2, 0, 0, 0],
-                [1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-                [2, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0]]
+    ref_grid = [
+        [0, 0, 0, 0, 2, 0, 0, 2, 0, 2, 2, 1, 0, 0, 1, 2],
+        [0, 1, 2, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 2, 1, 0, 2, 1, 1, 0, 2, 0, 2, 1, 0, 2],
+        [0, 2, 2, 2, 2, 0, 1, 0, 0, 2, 0, 0, 2, 2, 0, 0],
+        [1, 2, 0, 2, 0, 2, 1, 1, 0, 2, 0, 1, 1, 2, 0, 0],
+        [0, 0, 0, 0, 2, 1, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+        [2, 2, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1, 2, 2, 1, 0, 2, 0, 0, 2, 2, 1, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0],
+        [2, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 2, 1, 0, 0, 0],
+        [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 1, 1, 1, 0, 0, 1, 0, 2, 0, 0, 0],
+        [1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [2, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0],
+    ]
     ref_width = 16
     ref_height = 15
 
     assert trucks.create_game(seed, filename) == (
-        ref_nb_camions, ref_grid, ref_width, ref_height
+        ref_nb_camions,
+        ref_grid,
+        ref_width,
+        ref_height,
     )
 
 
@@ -38,21 +43,26 @@ def test_create_game_seed_5():
     filename = MAP_FILE
 
     ref_nb_camions = 3
-    ref_grid = [[2, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0, 1, 0, 1, 0, 2],
-                [0, 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 2, 1, 0, 2, 1, 2],
-                [0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 2, 0, 0, 2, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
-                [2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 1, 1, 2, 2, 0, 0, 0],
-                [0, 1, 1, 2, 0, 0, 0, 1, 0, 2, 2, 0, 1, 0, 1, 2, 2],
-                [1, 1, 0, 2, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 1, 0],
-                [1, 1, 0, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 2, 2, 2, 0],
-                [0, 0, 0, 2, 0, 1, 1, 0, 0, 1, 0, 0, 1, 2, 2, 0, 0]]
+    ref_grid = [
+        [2, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0, 1, 0, 1, 0, 2],
+        [0, 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 2, 1, 0, 2, 1, 2],
+        [0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 2, 0, 0, 2, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0],
+        [2, 2, 0, 0, 0, 2, 2, 0, 0, 0, 1, 1, 2, 2, 0, 0, 0],
+        [0, 1, 1, 2, 0, 0, 0, 1, 0, 2, 2, 0, 1, 0, 1, 2, 2],
+        [1, 1, 0, 2, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 1, 0],
+        [1, 1, 0, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 2, 2, 2, 0],
+        [0, 0, 0, 2, 0, 1, 1, 0, 0, 1, 0, 0, 1, 2, 2, 0, 0],
+    ]
     ref_width = 17
     ref_height = 10
 
     assert trucks.create_game(seed, filename) == (
-        ref_nb_camions, ref_grid, ref_width, ref_height
+        ref_nb_camions,
+        ref_grid,
+        ref_width,
+        ref_height,
     )
 
 
@@ -69,18 +79,20 @@ def test_truck_creation_5_20_3():
 
 
 def test_truck_dig_0_0(capsys):
-    camion_test = trucks.Camion(0, 0, 0)
+    camion = trucks.Camion(0, 0, 0)
+    camion.set_target(trucks.Crystal(0, 0, 1))
     trucks.NB_TOUR = 0
-    camion_test.dig()
+    camion.dig()
 
     captured = capsys.readouterr()
     assert captured.out == "0 DIG 0 0 0\n"
 
 
 def test_truck_dig_25_4(capsys):
-    camion_test = trucks.Camion(3, 25, 4)
+    camion = trucks.Camion(3, 25, 4)
+    camion.set_target(trucks.Crystal(25, 4, 1))
     trucks.NB_TOUR = 72
-    camion_test.dig()
+    camion.dig()
 
     capture = capsys.readouterr()
     assert capture.out == "72 DIG 3 25 4\n"
@@ -88,7 +100,7 @@ def test_truck_dig_25_4(capsys):
 
 def test_truck_progress_dig_2(capsys):
     camion = trucks.Camion(0, 0, 0)
-    camion.set_target(0, 0)
+    camion.set_target(trucks.Crystal(0, 0, 2))
     trucks.NB_TOUR = 0
     trucks.GRID = [[2]]
 
@@ -100,24 +112,19 @@ def test_truck_progress_dig_2(capsys):
 
 
 def test_truck_zigzag_carre(capsys):
-    camion = trucks.Camion(0, 0, 0)
     trucks.NB_TOUR = 0
     trucks.WIDTH, trucks.HEIGHT = (2, 2)
-    trucks.GRID = [[1, 1],
-                   [1, 1]]
-    expected = ["0 DIG 0 0 0", "1 MOVE 0 1 0",
-                "2 DIG 0 1 0", "3 MOVE 0 1 1",
-                "4 DIG 0 1 1", "5 MOVE 0 0 1",
-                "6 DIG 0 0 1"]
+    trucks.GRID = [[1, 1], [1, 1]]
+    expected = [
+        "0 DIG 0 0 0",
+        "1 MOVE 0 1 0",
+        "2 DIG 0 1 0",
+        "3 MOVE 0 1 1",
+        "4 DIG 0 1 1",
+        "5 MOVE 0 0 1",
+        "6 DIG 0 0 1",
+    ]
 
-    trucks.one_truck_zigzag(camion)
+    trucks.one_truck_zigzag()
     capture = capsys.readouterr()
-    assert capture.out.split('\n')[:-1] == expected
-
-def test_multi_truck(capsys):
-    ## TO DO
-    pass 
-
-def test_strat_multi_truck(capsys):
-    ## TO DO
-    pass 
+    assert capture.out.split("\n")[:-1] == expected

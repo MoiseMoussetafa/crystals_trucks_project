@@ -2,3 +2,5 @@
 **/.vscode
 *coverage*
 **/*map*.txt
+test_map.txt
+.pytest_cache
