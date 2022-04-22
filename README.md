@@ -1,5 +1,5 @@
 # Crystals vs Trucks
-![Tests sur release-main](https://github.com/MoiseMoussetafa/crystals_trucks_project/actions/workflows/python.yml/badge.svg)
+[![Tests sur release-main](https://github.com/MoiseMoussetafa/crystals_trucks_project/actions/workflows/python.yml/badge.svg?branch=release-main)](https://github.com/MoiseMoussetafa/crystals_trucks_project/actions/workflows/python.yml)
 [![codecov](https://codecov.io/gh/MoiseMoussetafa/crystals_trucks_project/branch/release-main/graph/badge.svg?token=L7JRXT7ZCX)](https://codecov.io/gh/MoiseMoussetafa/crystals_trucks_project)
 
 <p align="center">  
