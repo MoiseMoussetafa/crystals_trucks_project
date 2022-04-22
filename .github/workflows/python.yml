@@ -1,6 +1,5 @@
 name: Tests sur release-main
 
-
 on: 
   - push
   - pull_request
@@ -31,4 +30,4 @@ jobs:
     
     - name: Test with pytest
       run: |
-        pytest --cov=./ --cov-report=xml
+        python -m pytest --cov
