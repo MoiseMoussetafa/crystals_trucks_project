@@ -32,6 +32,7 @@ jobs:
       run: |
         python -m pytest --cov
         python -m pytest --cov-report xml:pytest-coverage.xml
+        ls 
     - name: Pytest Coverage Comment
       uses: MishaKav/pytest-coverage-comment@v1.1.25
       with:
