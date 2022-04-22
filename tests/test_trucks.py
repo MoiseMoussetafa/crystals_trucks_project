@@ -78,6 +78,24 @@ def test_truck_creation_5_20_3():
     assert (camion._id, camion.x, camion.y) == (5, 20, 3)
 
 
+def test_truck_move_x_1(capsys):
+    camion = trucks.Camion(0, 0, 0)
+    trucks.NB_TOUR = 0
+    camion.move(1, 0)
+
+    captured = capsys.readouterr()
+    assert captured.out == "0 MOVE 0 1 0\n"
+
+
+def test_truck_move_diag(capsys):
+    camion = trucks.Camion(0, 0, 0)
+    trucks.NB_TOUR = 0
+    camion.move(1, 1)
+
+    captured = capsys.readouterr()
+    assert captured.out == "0 MOVE 0 1 0\n"
+
+
 def test_truck_dig_0_0(capsys):
     camion = trucks.Camion(0, 0, 0)
     camion.set_target(trucks.Crystal(0, 0, 1))
