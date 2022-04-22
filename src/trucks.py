@@ -14,7 +14,7 @@ NB_CAMIONS = 0
 GRID = None
 WIDTH = 0
 HEIGHT = 0
-
+CRYSTALS = {}
 NB_TOUR = 0
 
 
@@ -113,14 +113,11 @@ def get_crystals_pos():
     return crystals
 
 
-def one_truck_zigzag():
-    global GRID, WIDTH, HEIGHT, NB_TOUR
+def one_truck_zigzag(truck, bounds=[0,HEIGHT]):
+    global WIDTH, NB_TOUR, CRYSTALS
 
-    truck = Camion(0, 0, 0)
-    crystals = get_crystals_pos()
-
-    index_y = 0
-    while index_y < HEIGHT:
+    index_y = bounds[0]
+    while index_y < bounds[1]:
         for index_x in itertools.chain(range(0, WIDTH, 1), range(WIDTH, -2, -1)):
             if index_x == WIDTH:
                 index_y += 1
@@ -128,13 +125,13 @@ def one_truck_zigzag():
             elif index_x == -1:
                 index_y += 1
                 index_x += 1
-            if index_y >= HEIGHT:
+            if index_y >= bounds[1]:
                 break
 
-            if f"{index_x}:{index_y}" in crystals.keys():
-                truck.set_target(crystals[f"{index_x}:{index_y}"])
+            if f"{index_x}:{index_y}" in CRYSTALS.keys():
+                truck.set_target(CRYSTALS[f"{index_x}:{index_y}"])
 
-                while crystals[f"{index_x}:{index_y}"].count > 0:
+                while CRYSTALS[f"{index_x}:{index_y}"].count > 0:
                     truck.progress()
                     NB_TOUR += 1
 
@@ -142,18 +139,22 @@ def one_truck_zigzag():
 def all_trucks_zigzag() -> None:
     global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
 
-    trucks = []
+    div_Height = HEIGHT // NB_CAMIONS
+    current_lvl = 0
     for i in range(NB_CAMIONS):
-        trucks.append(Camion(i, 0, i))
+        one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_Height])
+        current_lvl += div_Height        
 
 
 def main(seed, filename):
-    global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR, CRYSTALS
 
     NB_CAMIONS, GRID, WIDTH, HEIGHT = create_game(seed, filename)
     if not pathlib.Path(filename).exists():
         print("File not found.")
         sys.exit(-1)
+
+    CRYSTALS = get_crystals_pos()
 
     with open(filename, "a") as f:
         with redirect_stdout(f):
