@@ -32,27 +32,17 @@ jobs:
       run: |
         python -m pytest --cov
         python -m pytest --cov-report xml:pytest-coverage.xml
-        ls 
-    - name: Pytest Coverage Comment
-      uses: MishaKav/pytest-coverage-comment@v1.1.25
-      with:
-        github-token: ${{ github.token }}
-        pytest-coverage-path: pytest-coverage.xml
-        # coverage-path-prefix:
-        title: Coverage Report
-        badge-title: Coverage
-        hide-badge: false
-        hide-report: false
-        hide-comment: false
-        report-only-changed-files: false
-        # junitxml-path: 
-        # junitxml-title:
-        create-new-comment: false
-        default-branch: release-main
-        # multiple-files:
+        python -m pytest --cov=./ --cov-report=xml
         
-    - name: pytest-cov XML commenter
-      uses: highspeedoffice/pytest-cov-xml-parser@v1
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
       with:
-        file: pytest-coverage.xml
-        token: ${{ github.token }}
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/reports/
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        files: ./coverage1.xml,./coverage2.xml
+        flags: unittests
+        name: codecov-umbrella
+        path_to_write_report: ./coverage/codecov_report.txt
+        verbose: true
