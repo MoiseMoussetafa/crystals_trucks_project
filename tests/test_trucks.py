@@ -80,16 +80,16 @@ def test_truck_creation_5_20_3():
 
 def test_truck_move_x_1(capsys):
     camion = trucks.Camion(0, 0, 0)
-    trucks.NB_TOUR = 0
+
     camion.move(1, 0)
 
     captured = capsys.readouterr()
     assert captured.out == "0 MOVE 0 1 0\n"
 
 
-def test_truck_move_diag(capsys):
+def test_truck_move_diagonal(capsys):
     camion = trucks.Camion(0, 0, 0)
-    trucks.NB_TOUR = 0
+
     camion.move(1, 1)
 
     captured = capsys.readouterr()
@@ -99,7 +99,7 @@ def test_truck_move_diag(capsys):
 def test_truck_dig_0_0(capsys):
     camion = trucks.Camion(0, 0, 0)
     camion.set_target(trucks.Crystal(0, 0, 1))
-    trucks.NB_TOUR = 0
+
     camion.dig()
 
     captured = capsys.readouterr()
@@ -109,7 +109,7 @@ def test_truck_dig_0_0(capsys):
 def test_truck_dig_25_4(capsys):
     camion = trucks.Camion(3, 25, 4)
     camion.set_target(trucks.Crystal(25, 4, 1))
-    trucks.NB_TOUR = 72
+    camion.nb_tour = 72
     camion.dig()
 
     capture = capsys.readouterr()
@@ -119,18 +119,16 @@ def test_truck_dig_25_4(capsys):
 def test_truck_progress_dig_2(capsys):
     camion = trucks.Camion(0, 0, 0)
     camion.set_target(trucks.Crystal(0, 0, 2))
-    trucks.NB_TOUR = 0
+
     trucks.GRID = [[2]]
 
     while trucks.GRID[0][0] > 0:
         camion.progress()
         capture = capsys.readouterr()
-        assert capture.out == f"{trucks.NB_TOUR} DIG 0 0 0\n"
-        trucks.NB_TOUR += 1
+        assert capture.out == f"{camion.nb_tour-1} DIG 0 0 0\n"
 
 
 def test_truck_zigzag_carre(capsys):
-    trucks.NB_TOUR = 0
     trucks.WIDTH, trucks.HEIGHT = (2, 2)
     trucks.GRID = [[1, 1], [1, 1]]
     trucks.CRYSTALS = trucks.get_crystals_pos()

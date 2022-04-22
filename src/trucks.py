@@ -15,31 +15,34 @@ GRID = None
 WIDTH = 0
 HEIGHT = 0
 CRYSTALS = {}
-NB_TOUR = 0
 
 
 class Crystal:
+    global GRID, CRYSTALS
+
     def __init__(self, x, y, count) -> None:
         self.x = x
         self.y = y
         self.count = count
 
     def dig(self):
-        global GRID
         self.count -= 1
 
         if GRID:
             GRID[self.y][self.x] -= 1
 
+    def distance_from(self, x):
+        return abs(self.x - x)
+
 
 class Camion:
-    global NB_TOUR
-
     def __init__(self, id, x, y) -> None:
         self._id = id
         self.x = x
         self.y = y
+        self.target_list = []
         self.target = None
+        self.nb_tour = 0
 
     def move(self, x, y):
         if x > self.x:
@@ -50,10 +53,10 @@ class Camion:
             self.y += 1
         elif y < self.y:
             self.y -= 1
-        print(f"{NB_TOUR} MOVE {self._id} {self.x} {self.y}")
+        print(f"{self.nb_tour} MOVE {self._id} {self.x} {self.y}")
 
     def dig(self):
-        print(f"{NB_TOUR} DIG {self._id} {self.x} {self.y}")
+        print(f"{self.nb_tour} DIG {self._id} {self.x} {self.y}")
         self.target.dig()
 
     def set_target(self, crystal: Crystal):
@@ -69,6 +72,7 @@ class Camion:
                     self.target = None
             else:
                 self.move(self.target.x, self.target.y)
+            self.nb_tour += 1
 
 
 def create_game(seed: int, filename: str) -> tuple:
@@ -114,7 +118,7 @@ def get_crystals_pos():
 
 
 def one_truck_zigzag(truck, bounds=None):
-    global WIDTH, HEIGHT, NB_TOUR, CRYSTALS
+    global WIDTH, HEIGHT, CRYSTALS
 
     if not bounds:
         bounds = [0, HEIGHT]
@@ -136,21 +140,72 @@ def one_truck_zigzag(truck, bounds=None):
 
                 while CRYSTALS[f"{index_x}:{index_y}"].count > 0:
                     truck.progress()
-                    NB_TOUR += 1
+
+
+def one_truck_nearest(truck, bounds=None):
+    global WIDTH, HEIGHT, CRYSTALS
+
+    if not bounds:
+        bounds = [0, HEIGHT]
+
+    crystals = {}
+    for y in range(bounds[0], bounds[1]):
+        for x in range(WIDTH):
+            if f"{x}:{y}" in CRYSTALS.keys():
+                crystals[f"{x}:{y}"] = CRYSTALS[f"{x}:{y}"]
+
+    if len(crystals) > 0:
+        target = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))[0]
+
+        truck.set_target(target)
+        if target.count > 0:
+            if f"{truck.x}:{truck.y}" in CRYSTALS.keys():
+                target = CRYSTALS[f"{truck.x}:{truck.y}"]
+                truck.set_target(target)
+            truck.progress()
+        if target.count == 0:
+            CRYSTALS.pop(f"{target.x}:{target.y}")
 
 
 def all_trucks_zigzag() -> None:
-    global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT
 
     div_height = HEIGHT // NB_CAMIONS
-    current_lvl = 0
+    bottom = 0
+    top = div_height
     for i in range(NB_CAMIONS):
-        one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_height])
-        current_lvl += div_height
+        one_truck_zigzag(Camion(i, 0, i), [bottom, top])
+        bottom += div_height
+
+        if i == NB_CAMIONS - 2:
+            top = HEIGHT
+        else:
+            top = bottom + div_height
+
+
+def all_trucks_nearest() -> None:
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT, CRYSTALS
+
+    trucks = []
+    for i in range(NB_CAMIONS):
+        trucks.append(Camion(i, 0, i))
+
+    while len(CRYSTALS) > 0:
+        div_height = HEIGHT // NB_CAMIONS
+        bottom = 0
+        top = div_height
+        for i in range(NB_CAMIONS):
+            one_truck_nearest(trucks[i], [bottom, top])
+            bottom += div_height
+
+            if i == NB_CAMIONS - 2:
+                top = HEIGHT
+            else:
+                top = bottom + div_height
 
 
 def main(seed, filename):
-    global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR, CRYSTALS
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT, CRYSTALS
 
     NB_CAMIONS, GRID, WIDTH, HEIGHT = create_game(seed, filename)
     if not pathlib.Path(filename).exists():
@@ -158,7 +213,16 @@ def main(seed, filename):
         sys.exit(-1)
 
     CRYSTALS = get_crystals_pos()
+    # one_truck_nearest(Camion(0, 0, 0))
+
+    truck = Camion(0, 0, 0)
 
     with open(filename, "a") as f:
         with redirect_stdout(f):
-            one_truck_zigzag(Camion(0, 0, 0))
+            # one_truck_zigzag(Camion(0, 0, 0))
+            # all_trucks_zigzag()
+
+            # while len(CRYSTALS) > 0:
+            #     one_truck_nearest(truck)
+
+            all_trucks_nearest()
