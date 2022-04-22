@@ -28,7 +28,28 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    
+    - name: Black Check
+      uses: jpetrucciani/black-check@21.12b0
+      with:
+        path: .
     - name: Test with pytest
       run: |
-        python -m pytest --cov=xml
+        python -m pytest --cov
+        python -m pytest --cov-report term --cov-report txt:pytest-coverage.txt --cov
+    - name: Pytest Coverage Comment
+      uses: MishaKav/pytest-coverage-comment@v1.1.25
+      with:
+        github-token: ${{ github.token }}
+        pytest-coverage-path: ./pytest-coverage.txt
+        # coverage-path-prefix:
+        title: Coverage Report
+        badge-title: Coverage
+        hide-badge: false
+        hide-report: false
+        hide-comment: false
+        report-only-changed-files: false
+        # junitxml-path: 
+        # junitxml-title:
+        create-new-comment: false
+        default-branch: release-main
+        # multiple-files:
