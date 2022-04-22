@@ -113,8 +113,11 @@ def get_crystals_pos():
     return crystals
 
 
-def one_truck_zigzag(truck, bounds=[0,HEIGHT]):
-    global WIDTH, NB_TOUR, CRYSTALS
+def one_truck_zigzag(truck, bounds=None):
+    global WIDTH, HEIGHT, NB_TOUR, CRYSTALS
+
+    if not bounds:
+        bounds = [0, HEIGHT]
 
     index_y = bounds[0]
     while index_y < bounds[1]:
@@ -139,11 +142,11 @@ def one_truck_zigzag(truck, bounds=[0,HEIGHT]):
 def all_trucks_zigzag() -> None:
     global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
 
-    div_Height = HEIGHT // NB_CAMIONS
+    div_height = HEIGHT // NB_CAMIONS
     current_lvl = 0
     for i in range(NB_CAMIONS):
-        one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_Height])
-        current_lvl += div_Height        
+        one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_height])
+        current_lvl += div_height
 
 
 def main(seed, filename):
@@ -158,4 +161,4 @@ def main(seed, filename):
 
     with open(filename, "a") as f:
         with redirect_stdout(f):
-            one_truck_zigzag()
+            one_truck_zigzag(Camion(0, 0, 0))

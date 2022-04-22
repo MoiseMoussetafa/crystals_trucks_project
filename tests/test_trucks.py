@@ -133,6 +133,7 @@ def test_truck_zigzag_carre(capsys):
     trucks.NB_TOUR = 0
     trucks.WIDTH, trucks.HEIGHT = (2, 2)
     trucks.GRID = [[1, 1], [1, 1]]
+    trucks.CRYSTALS = trucks.get_crystals_pos()
     expected = [
         "0 DIG 0 0 0",
         "1 MOVE 0 1 0",
@@ -143,6 +144,6 @@ def test_truck_zigzag_carre(capsys):
         "6 DIG 0 0 1",
     ]
 
-    trucks.one_truck_zigzag()
+    trucks.one_truck_zigzag(trucks.Camion(0, 0, 0))
     capture = capsys.readouterr()
     assert capture.out.split("\n")[:-1] == expected
