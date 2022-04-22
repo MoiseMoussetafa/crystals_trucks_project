@@ -113,3 +113,11 @@ def test_truck_zigzag_carre(capsys):
     trucks.one_truck_zigzag(camion)
     capture = capsys.readouterr()
     assert capture.out.split('\n')[:-1] == expected
+
+def test_multi_truck(capsys):
+    ## TO DO
+    pass 
+
+def test_strat_multi_truck(capsys):
+    ## TO DO
+    pass 
