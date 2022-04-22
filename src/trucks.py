@@ -18,16 +18,26 @@ HEIGHT = 0
 NB_TOUR = 0
 
 
+class Crystal:
+    def __init__(self, x, y, count) -> None:
+        self.x = x
+        self.y = y
+        self.count = count
+
+    def dig(self):
+        global GRID
+        self.count -= 1
+        GRID[self.y][self.x] -= 1
+
+
 class Camion:
     global NB_TOUR
-    global GRID
 
     def __init__(self, id, x, y) -> None:
         self._id = id
         self.x = x
         self.y = y
-        self.has_target = False
-        self.target_x, self.target_y = 0, 0
+        self.target = None
 
     def move(self, x, y):
         if x > self.x:
@@ -42,32 +52,31 @@ class Camion:
 
     def dig(self):
         print(f"{NB_TOUR} DIG {self._id} {self.x} {self.y}")
+        self.target.dig()
 
-    def set_target(self, target_x, target_y):
-        self.target_x = target_x
-        self.target_y = target_y
-        self.has_target = True
+    def set_target(self, crystal: Crystal):
+        self.target = crystal
 
     def progress(self):
-        if self.has_target:
-            if self.target_x == self.x and self.target_y == self.y:
-                if GRID[self.y][self.x] > 0:
+        if self.target:
+            if self.target.x == self.x and self.target.y == self.y:
+                if self.target.count > 0:
                     self.dig()
-                    GRID[self.y][self.x] -= 1
-                if GRID[self.y][self.x] == 0:
-                    self.has_target = False
+                if self.target.count == 0:
+                    del self.target
+                    self.target = None
             else:
-                self.move(self.target_x, self.target_y)
+                self.move(self.target.x, self.target.y)
 
 
 def create_game(seed: int, filename: str) -> tuple:
     grid = []
 
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         with redirect_stdout(f):
             game.init_game(seed)
 
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         is_in_grid = False
         for line in f.readlines():
             if GRID_OPEN in line:
@@ -78,11 +87,9 @@ def create_game(seed: int, filename: str) -> tuple:
                 continue
 
             if is_in_grid:
-                grid.append([
-                    int(x) for x in line.rstrip("\n").replace(" ", "0")])
+                grid.append([int(x) for x in line.rstrip("\n").replace(" ", "0")])
             elif CAMIONS_FLAG in line:
-                nb_camions = int(
-                    line.translate([" \n", ""]).lstrip(CAMIONS_FLAG))
+                nb_camions = int(line.translate([" \n", ""]).lstrip(CAMIONS_FLAG))
             elif WIDTH_FLAG in line:
                 width = int(line.translate([" \n", ""]).lstrip(WIDTH_FLAG))
             elif HEIGHT_FLAG in line:
@@ -90,13 +97,29 @@ def create_game(seed: int, filename: str) -> tuple:
 
     return nb_camions, grid, width, height
 
-def one_truck_zigzag(truck):
+
+def get_crystals_pos():
+    global GRID, WIDTH, HEIGHT
+
+    crystals = {}
+
+    for y in range(HEIGHT):
+        for x in range(WIDTH):
+            if GRID[y][x] > 0:
+                crystals[f"{x}:{y}"] = Crystal(x, y, GRID[y][x])
+
+    return crystals
+
+
+def one_truck_zigzag():
     global GRID, WIDTH, HEIGHT, NB_TOUR
+
+    truck = Camion(0, 0, 0)
+    crystals = get_crystals_pos()
 
     index_y = 0
     while index_y < HEIGHT:
-        for index_x in itertools.chain(
-                range(0, WIDTH, 1), range(WIDTH, -2, -1)):
+        for index_x in itertools.chain(range(0, WIDTH, 1), range(WIDTH, -2, -1)):
             if index_x == WIDTH:
                 index_y += 1
                 index_x -= 1
@@ -106,12 +129,20 @@ def one_truck_zigzag(truck):
             if index_y >= HEIGHT:
                 break
 
-            if GRID[index_y][index_x] > 0:
-                truck.set_target(index_x, index_y)
+            if f"{index_x}:{index_y}" in crystals.keys():
+                truck.set_target(crystals[f"{index_x}:{index_y}"])
 
-            while GRID[index_y][index_x] > 0:
-                truck.progress()
-                NB_TOUR += 1
+                while crystals[f"{index_x}:{index_y}"].count > 0:
+                    truck.progress()
+                    NB_TOUR += 1
+
+
+def all_trucks_zigzag() -> None:
+    global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
+
+    trucks = []
+    for i in range(NB_CAMIONS):
+        trucks.append(Camion(i, 0, i))
 
 
 def main(seed, filename):
@@ -122,8 +153,6 @@ def main(seed, filename):
         print("File not found.")
         sys.exit(-1)
 
-    camion = Camion(0, 0, 0)
-    
-    with open(filename, 'a') as f:
+    with open(filename, "a") as f:
         with redirect_stdout(f):
-            one_truck_zigzag(filename, camion)
+            one_truck_zigzag()
