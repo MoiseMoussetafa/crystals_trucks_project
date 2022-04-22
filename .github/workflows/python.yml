@@ -36,7 +36,7 @@ jobs:
       uses: MishaKav/pytest-coverage-comment@v1.1.25
       with:
         github-token: ${{ github.token }}
-        pytest-coverage-path: ./pytest-coverage.txt
+        pytest-coverage-path: ./pytest-coverage.xml
         # coverage-path-prefix:
         title: Coverage Report
         badge-title: Coverage
