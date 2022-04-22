@@ -31,7 +31,7 @@ jobs:
     - name: Test with pytest
       run: |
         python -m pytest --cov
-        python -m pytest --cov-report term --cov-report txt:pytest-coverage.txt --cov
+        python -m pytest --cov-report term:coverage.txt
     - name: Pytest Coverage Comment
       uses: MishaKav/pytest-coverage-comment@v1.1.25
       with:
