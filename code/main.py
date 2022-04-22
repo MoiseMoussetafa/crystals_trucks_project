@@ -6,9 +6,11 @@ import sys
 
 FILENAME = "map.txt"
 
+CAMIONS_FLAG = "trucks:"
 GRID_OPEN = "### Grid ###"
 GRID_CLOSE = "### End Grid ###"
 
+NB_CAMIONS = 0
 GRID = None
 
 class Camion:
@@ -17,18 +19,21 @@ class Camion:
         self.x = x
         self.y = y
 
-    def move(self, x, y):
+    def move(self, tour_id, x, y):
         global GRID
-        self.x = x
-        self.y = y
-        print(f"0 MOVE {self._id} {x} {y}")
+        
+        if self.x != x or self.y != self.y:
+            self.x = x
+            self.y = y
+            print(f"{tour_id} MOVE {self._id} {x} {y}")
         
         while GRID[y][x] > 0:
-            self.dig()
+            self.dig(tour_id)
             GRID[y][x] -= 1
+            tour_id += 1
         
-    def dig(self):
-        print(f"0 DIG {self._id} {self.x} {self.y}")
+    def dig(self, tour_id):
+        print(f"{tour_id} DIG {self._id} {self.x} {self.y}")
         
 
 def generate_map(filename):
@@ -50,9 +55,11 @@ def parse_game(filename):
                 continue
 
             if is_in_grid:
-                grid.append([int(x) for x in line.rstrip("\n").replace(" ", "0")])                   
+                grid.append([int(x) for x in line.rstrip("\n").replace(" ", "0")])
+            elif CAMIONS_FLAG in line:
+                nb_camions = int(line.translate([" \n", ""]).lstrip(CAMIONS_FLAG))
 
-    return grid
+    return nb_camions, grid
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -70,11 +77,18 @@ if __name__ == "__main__":
         print("File not found.")
         sys.exit(-1)    
     
-    GRID = parse_game(filename)
-    camion = Camion(0, 0, 0)
+    NB_CAMIONS, GRID = parse_game(filename)
+    tab_camion = []
+    for i in range NB_CAMIONS:
+        tab_camion[i] = Camion(i,0,i) 
+    
+    print(tab_camion)
+    print(NB_CAMIONS)
     
     with open(filename, 'a') as f:
         with redirect_stdout(f):
+            tour = 0
             for index_y, y in enumerate(GRID):
                 for index_x, x in enumerate(y):
-                    camion.move(index_x, index_y)
+                    camion.move(tour, index_x, index_y)
+                    tour += 1
