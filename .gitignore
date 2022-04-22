@@ -1,3 +1,5 @@
 **/__pycache__
 **/.vscode
 **/*map*.txt
+test_map.txt
+.pytest_cache
