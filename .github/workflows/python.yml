@@ -31,7 +31,7 @@ jobs:
     - name: Black Check
       uses: jpetrucciani/black-check@21.12b0
       with:
-        path: .
+        path: ./src ./tests
     - name: Test with pytest
       run: |
         python -m pytest --cov
