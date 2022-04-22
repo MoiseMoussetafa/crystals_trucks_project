@@ -50,3 +50,9 @@ jobs:
         create-new-comment: false
         default-branch: release-main
         # multiple-files:
+        
+    - name: pytest-cov XML commenter
+      uses: highspeedoffice/pytest-cov-xml-parser@v1
+      with:
+        file: pytest-coverage.xml
+        token: ${{ github.token }}
