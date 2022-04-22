@@ -11,6 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    ### START CODECOV SETUP
+    - uses: actions/checkout@master
+    - uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        files: ./coverage1.xml,./coverage2.xml # optional
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)    
+    ### END CODECOV SETUP
+    
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -33,7 +45,6 @@ jobs:
         python -m pytest --cov
         python -m pytest --cov-report xml:pytest-coverage.xml
         python -m pytest --cov=./ --cov-report=xml
-        
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
