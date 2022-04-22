@@ -139,11 +139,11 @@ def one_truck_zigzag(truck, bounds=[0,HEIGHT]):
 def all_trucks_zigzag() -> None:
     global NB_CAMIONS, GRID, WIDTH, HEIGHT, NB_TOUR
 
-    div_Height = HEIGHT // NB_CAMIONS
+    div_height = HEIGHT // NB_CAMIONS
     current_lvl = 0
     for i in range(NB_CAMIONS):
-        one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_Height])
-        current_lvl += div_Height        
+        one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_height])
+        current_lvl += div_height        
 
 
 def main(seed, filename):
