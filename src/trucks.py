@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 from contextlib import redirect_stdout
 import pathlib
 from src import game
@@ -147,6 +148,7 @@ def all_trucks_zigzag() -> None:
     for i in range(NB_CAMIONS):
         one_truck_zigzag(Camion(i, 0, i), [current_lvl, current_lvl + div_height])
         current_lvl += div_height
+    
 
 
 def main(seed, filename):
