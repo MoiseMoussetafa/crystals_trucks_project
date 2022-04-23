@@ -142,31 +142,6 @@ def one_truck_zigzag(truck, bounds=None):
                     truck.progress()
 
 
-def one_truck_nearest(truck, bounds=None):
-    global WIDTH, HEIGHT, CRYSTALS
-
-    if not bounds:
-        bounds = [0, HEIGHT]
-
-    crystals = {}
-    for y in range(bounds[0], bounds[1]):
-        for x in range(WIDTH):
-            if f"{x}:{y}" in CRYSTALS.keys():
-                crystals[f"{x}:{y}"] = CRYSTALS[f"{x}:{y}"]
-
-    if len(crystals) > 0:
-        target = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))[0]
-
-        truck.set_target(target)
-        if target.count > 0:
-            if f"{truck.x}:{truck.y}" in CRYSTALS.keys():
-                target = CRYSTALS[f"{truck.x}:{truck.y}"]
-                truck.set_target(target)
-            truck.progress()
-        if target.count == 0:
-            CRYSTALS.pop(f"{target.x}:{target.y}")
-
-
 def all_trucks_zigzag() -> None:
     global NB_CAMIONS, GRID, WIDTH, HEIGHT
 
@@ -183,6 +158,49 @@ def all_trucks_zigzag() -> None:
             top = bottom + div_height
 
 
+def one_truck_nearest(truck, bounds=None):
+    global WIDTH, HEIGHT, CRYSTALS
+
+    if not bounds:
+        bounds = [0, HEIGHT]
+
+    crystals = {}
+    for y in range(bounds[0], bounds[1]):
+        for x in range(WIDTH):
+            if f"{x}:{y}" in CRYSTALS.keys():
+                crystals[f"{x}:{y}"] = CRYSTALS[f"{x}:{y}"]
+
+    if len(crystals) > 0:
+        if f"{truck.x}:{truck.y}" in CRYSTALS.keys():
+            target = CRYSTALS[f"{truck.x}:{truck.y}"]
+        else:
+            target = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))[
+                0
+            ]
+
+        if target.count > 0:
+            truck.set_target(target)
+            truck.progress()
+        if target.count == 0:
+            CRYSTALS.pop(f"{target.x}:{target.y}")
+
+
+def count_crystals(bounds=None):
+    global GRID, WIDTH, HEIGHT
+
+    count = 0
+
+    if not bounds:
+        bounds = [0, HEIGHT]
+
+    for y in range(bounds[0], bounds[1]):
+        for x in range(WIDTH):
+            if f"{x}:{y}" in CRYSTALS.keys():
+                count += 1
+
+    return count
+
+
 def all_trucks_nearest() -> None:
     global NB_CAMIONS, GRID, WIDTH, HEIGHT, CRYSTALS
 
@@ -195,7 +213,15 @@ def all_trucks_nearest() -> None:
         bottom = 0
         top = div_height
         for i in range(NB_CAMIONS):
-            one_truck_nearest(trucks[i], [bottom, top])
+            bounds = [bottom, top]
+            
+            if trucks[i].target and trucks[i].target.count == 0:
+                trucks[i].target = None
+                
+            if count_crystals(bounds) == 0:
+                bounds = None
+
+            one_truck_nearest(trucks[i], bounds)
             bottom += div_height
 
             if i == NB_CAMIONS - 2:
