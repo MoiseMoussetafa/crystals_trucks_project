@@ -19,8 +19,6 @@ Réalisation d'un code permettant de résoudre le jeu suivant : https://github.c
 Le fichier `game.py` doit être récupéré du jeu original et ne doit pas être modifié.  
 Le code réalisé doit générer un fichier `.txt` qui peut être injecté dans le `viewer.py` du jeu original afin de le résoudre.  
 
-Source : https://github.com/jorisoffouga/methode_dev_collaboratif
-
 
 ### Obligations 
 
@@ -51,4 +49,10 @@ python3 crystal_trucks/viewer.py [nom_fichier.txt]
 *seed* : nombre correspondant à la graine de randomisation afin d'obtenir une carte de jeu semi-aléatoire  
 *nom_fichier.txt* : nom du fichier à choisir pour le document texte généré par le `main.py`  
 
+---
+
+### Sources
+- https://github.com/jorisoffouga/methode_dev_collaboratif  
+- https://github.com/vpoulailleau/crystal_trucks  
+- https://docs.pytest.org/en/7.1.x/  
 
