@@ -214,10 +214,10 @@ def all_trucks_nearest() -> None:
         top = div_height
         for i in range(NB_CAMIONS):
             bounds = [bottom, top]
-            
+
             if trucks[i].target and trucks[i].target.count == 0:
                 trucks[i].target = None
-                
+
             if count_crystals(bounds) == 0:
                 bounds = None
 
