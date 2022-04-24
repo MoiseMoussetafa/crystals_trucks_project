@@ -7,10 +7,8 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    steps:
+    steps:  
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -19,6 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install pytest-cov
         pip install flake8 pytest
         # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
@@ -27,7 +26,12 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    
     - name: Test with pytest
       run: |
-        pytest
+        python -m pytest --cov
+        python -m pytest --cov-report xml:pytest-coverage.xml
+        python -m pytest --cov=./ --cov-report=xml
+    - name: Codecov
+      uses: codecov/codecov-action@v3.1.0
+      with:
+        token: 2f465f70-9e66-4eb7-be70-4d1034916119
