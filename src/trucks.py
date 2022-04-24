@@ -1,4 +1,3 @@
-from concurrent.futures import thread
 from contextlib import redirect_stdout
 import pathlib
 from src import game

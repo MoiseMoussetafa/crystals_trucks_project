@@ -146,53 +146,54 @@ def test_truck_zigzag_carre(capsys):
     capture = capsys.readouterr()
     assert capture.out.split("\n")[:-1] == expected
 
+
 def test_nearest_basic(capsys):
     trucks.NB_TOUR = 0
+    trucks.NB_CAMIONS = 1
     trucks.WIDTH, trucks.HEIGHT = (3, 3)
     trucks.GRID = [
-        [1,0,0],
-        [0,1,0],
-        [0,1,0],
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 1, 0],
     ]
+    trucks.CRYSTALS = trucks.get_crystals_pos()
 
-    expected1 = [
-        "0 MOVE 0 0 0",
+    expected = [
+        "0 DIG 0 0 0",
         "1 MOVE 0 1 0",
-        "2 DIG 0 1 0",
-        "3 MOVE 0 1 1",
-        "4 DIG 0 1 1",
-        "5 MOVE 0 0 1",
-        "6 MOVE 0 0 1",
+        "2 MOVE 0 1 1",
+        "3 DIG 0 1 1",
+        "4 MOVE 0 1 2",
+        "5 DIG 0 1 2",
     ]
 
     trucks.all_trucks_nearest()
     capture = capsys.readouterr()
-    assert capture.out.split("\n")[:-1] == expected1 or capture.out.split("\n")[:-1] == expected2
+    assert capture.out.split("\n")[:-1] == expected
+
 
 def test_nearest_angle(capsys):
     trucks.NB_TOUR = 0
+    trucks.NB_CAMIONS = 1
     trucks.WIDTH, trucks.HEIGHT = (3, 3)
     trucks.GRID = [
-        [1,0,0],
-        [0,0,0],
-        [0,0,1],
+        [1, 0, 0],
+        [0, 0, 0],
+        [0, 0, 1],
     ]
-    expected1 = [
-        "0 MOVE 0 0 0",
-        "1 MOVE 0 1 0",
-        "2 MOVE 0 2 0",
-        "3 DIG 0 2 0",
-    ]
-    expected2 = [
-        "0 MOVE 0 0 0",
-        "1 MOVE 0 0 1",
-        "2 MOVE 0 0 2",
-        "3 DIG 0 0 2",
-    ]
-    trucks.all_trucks_nearest()
-    capture = capsys.readouterr()
-    assert capture.out.split("\n")[:-1] == expected1 or capture.out.split("\n")[:-1] == expected2
-
-
     trucks.CRYSTALS = trucks.get_crystals_pos()
 
+    expected = [
+        "0 DIG 0 0 0",
+        "1 MOVE 0 1 0",
+        "2 MOVE 0 2 0",
+        "3 MOVE 0 2 1",
+        "4 MOVE 0 2 2",
+        "5 DIG 0 2 2",
+    ]
+
+    trucks.all_trucks_nearest()
+    capture = capsys.readouterr()
+    assert capture.out.split("\n")[:-1] == expected
+
+    trucks.CRYSTALS = trucks.get_crystals_pos()
