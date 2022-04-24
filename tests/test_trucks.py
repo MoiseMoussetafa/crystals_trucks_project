@@ -145,3 +145,54 @@ def test_truck_zigzag_carre(capsys):
     trucks.one_truck_zigzag(trucks.Camion(0, 0, 0))
     capture = capsys.readouterr()
     assert capture.out.split("\n")[:-1] == expected
+
+def test_nearest_basic(capsys):
+    trucks.NB_TOUR = 0
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [1,0,0],
+        [0,1,0],
+        [0,1,0],
+    ]
+
+    expected1 = [
+        "0 MOVE 0 0 0",
+        "1 MOVE 0 1 0",
+        "2 DIG 0 1 0",
+        "3 MOVE 0 1 1",
+        "4 DIG 0 1 1",
+        "5 MOVE 0 0 1",
+        "6 MOVE 0 0 1",
+    ]
+
+    trucks.all_trucks_nearest()
+    capture = capsys.readouterr()
+    assert capture.out.split("\n")[:-1] == expected1 or capture.out.split("\n")[:-1] == expected2
+
+def test_nearest_angle(capsys):
+    trucks.NB_TOUR = 0
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [1,0,0],
+        [0,0,0],
+        [0,0,1],
+    ]
+    expected1 = [
+        "0 MOVE 0 0 0",
+        "1 MOVE 0 1 0",
+        "2 MOVE 0 2 0",
+        "3 DIG 0 2 0",
+    ]
+    expected2 = [
+        "0 MOVE 0 0 0",
+        "1 MOVE 0 0 1",
+        "2 MOVE 0 0 2",
+        "3 DIG 0 0 2",
+    ]
+    trucks.all_trucks_nearest()
+    capture = capsys.readouterr()
+    assert capture.out.split("\n")[:-1] == expected1 or capture.out.split("\n")[:-1] == expected2
+
+
+    trucks.CRYSTALS = trucks.get_crystals_pos()
+
