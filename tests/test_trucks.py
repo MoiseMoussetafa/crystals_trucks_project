@@ -197,3 +197,69 @@ def test_nearest_angle(capsys):
     assert capture.out.split("\n")[:-1] == expected
 
     trucks.CRYSTALS = trucks.get_crystals_pos()
+
+
+def test_get_nearest_crystal_easy():
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 1, 0],
+    ]
+    
+    trucks.CRYSTALS = trucks.get_crystals_pos()
+    
+    assert trucks.get_nearest_crystal(trucks.CRYSTALS, trucks.Camion(0, 0, 0)) == trucks.CRYSTALS["0:0"]
+    
+    
+def test_get_nearest_crystal_further():
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [0, 0, 0],
+        [0, 0, 1],
+        [0, 1, 0],
+    ]
+    
+    trucks.CRYSTALS = trucks.get_crystals_pos()
+    
+    assert trucks.get_nearest_crystal(trucks.CRYSTALS, trucks.Camion(0, 0, 0)) == trucks.CRYSTALS["1:2"]
+    
+    
+    
+def test_get_nearest_crystal_backward():
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [1, 0, 0],
+        [0, 0, 0],
+        [0, 0, 1],
+    ]
+    
+    trucks.CRYSTALS = trucks.get_crystals_pos()
+    
+    assert trucks.get_nearest_crystal(trucks.CRYSTALS, trucks.Camion(0, 1, 1)) == trucks.CRYSTALS["0:0"]
+
+
+def test_count_crystals_wo_bounds():
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 1, 0],
+    ]
+    
+    trucks.CRYSTALS = trucks.get_crystals_pos()
+    
+    assert trucks.count_crystals() == 3
+
+
+def test_count_crystals_with_bounds():
+    trucks.WIDTH, trucks.HEIGHT = (3, 3)
+    trucks.GRID = [
+        [1, 0, 0],
+        [1, 2, 0],
+        [1, 0, 1],
+    ]
+    
+    trucks.CRYSTALS = trucks.get_crystals_pos()
+    
+    assert trucks.count_crystals([1, trucks.HEIGHT]) == 4

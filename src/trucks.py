@@ -24,6 +24,7 @@ class Crystal:
         self.x = x
         self.y = y
         self.count = count
+        self.targeted_by = None
 
     def dig(self):
         self.count -= 1
@@ -60,7 +61,9 @@ class Camion:
         self.target.dig()
 
     def set_target(self, crystal: Crystal):
-        self.target = crystal
+        if crystal:
+            self.target = crystal
+            crystal.targeted_by = self._id
 
     def progress(self):
         if self.target:
@@ -156,7 +159,15 @@ def all_trucks_zigzag() -> None:
             top = HEIGHT
         else:
             top = bottom + div_height
-
+            
+            
+def get_nearest_crystal(crystals, truck):    
+    sorted_crystals = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))
+    for target in sorted_crystals:
+        if target.targeted_by is None or target.targeted_by == truck._id:
+            return target
+        
+    return sorted_crystals[0]
 
 def one_truck_nearest(truck, bounds=None):
     global WIDTH, HEIGHT, CRYSTALS
@@ -174,19 +185,18 @@ def one_truck_nearest(truck, bounds=None):
         if f"{truck.x}:{truck.y}" in CRYSTALS.keys():
             target = CRYSTALS[f"{truck.x}:{truck.y}"]
         else:
-            target = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))[
-                0
-            ]
+            target = get_nearest_crystal(crystals, truck)
+
+        truck.set_target(target)
 
         if target.count > 0:
-            truck.set_target(target)
             truck.progress()
         if target.count == 0:
             CRYSTALS.pop(f"{target.x}:{target.y}")
 
 
 def count_crystals(bounds=None):
-    global GRID, WIDTH, HEIGHT
+    global GRID, WIDTH, HEIGHT, CRYSTALS
 
     count = 0
 
@@ -227,7 +237,7 @@ def all_trucks_nearest() -> None:
             if i == NB_CAMIONS - 2:
                 top = HEIGHT
             else:
-                top = bottom + div_height
+                top = bottom + div_height        
 
 
 def main(seed, filename):
