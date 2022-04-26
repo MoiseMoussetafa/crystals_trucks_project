@@ -5,12 +5,13 @@
 `test_trucks.py` est le fichier regroupant nos tests unitaires afin de valider le fonctionnement de nos fichiers .py permettant le fonctionnement du code.  
 Ces tests sont lancés grâce à Pytest.
 
-# test_create_game_seed_0(): 
-# test_create_game_seed_5():
-# test_truck_creation_0_0_0():
-# test_truck_creation_5_20_3():
-# test_truck_dig_0_0(capsys):
-#
-#
-#
-#
+- test_create_game_seed_0(): Création d'une partie avec la map 0  
+- test_create_game_seed_5(): Création d'une partie avec la map 5
+- test_truck_creation_0_0_0(): Création d'un camion en 0,0
+- test_truck_creation_5_20_3(): Création d'un camion en 20,3 
+- test_truck_dig_0_0(capsys): Tentative de dig en 0,0
+- test_truck_dig_25_4(capsys): Tentative de dig en 25,4
+- test_truck_progress_dig_2(capsys): test de la fonction progress en faisant creuser un camion 0,0
+- test_truck_zigzag_carre(capsys): test d'une stratégie de couverture de la map 
+
+Les tests sont réalisés avec des maps témoins.
