@@ -7,7 +7,7 @@ MAP_FILE = THIS_DIR + "/map.txt"
 
 
 def test_main():
-    assert main.__name__ == "__main__"
+    assert main.filename == "main"
 
 
 def test_create_game_seed_0():
