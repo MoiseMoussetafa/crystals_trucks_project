@@ -1,8 +1,14 @@
+from fileinput import filename
 import src.trucks as trucks
 import pathlib
+import main
 
 THIS_DIR = pathlib.Path(__file__).parent.__str__()
 MAP_FILE = THIS_DIR + "/map.txt"
+
+
+def test_main():
+    assert main != None
 
 
 def test_create_game_seed_0():
