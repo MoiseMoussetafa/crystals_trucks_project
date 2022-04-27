@@ -4,7 +4,8 @@
 
 `test_trucks.py` est le fichier regroupant nos tests unitaires afin de valider le fonctionnement de nos fichiers .py permettant le fonctionnement du code.  
 Ces tests sont lancés grâce à Pytest.
-*⚠️ A noter : le prefixe "test" devant le nom du fichier ainsi que devant chaque fonction de test n'est pas anodin : il permet à pytest de déterminer où se trouve le fichier et quels sont les fonctions à lancer pour réaliser les tests.
+
+⚠️ A noter : le prefixe "test" devant le nom du fichier ainsi que devant chaque fonction de test n'est pas anodin : il permet à pytest de déterminer où se trouve le fichier et quels sont les fonctions à lancer pour réaliser les tests.
 
 - test_create_game_seed_0(): Création d'une partie avec la map 0  
 - test_create_game_seed_5(): Création d'une partie avec la map 5
