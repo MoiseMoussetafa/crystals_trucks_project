@@ -4,6 +4,7 @@
 
 `test_trucks.py` est le fichier regroupant nos tests unitaires afin de valider le fonctionnement de nos fichiers .py permettant le fonctionnement du code.  
 Ces tests sont lancés grâce à Pytest.
+*⚠️ A noter : le prefixe "test" devant le nom du fichier ainsi que devant chaque fonction de test n'est pas anodin : il permet à pytest de déterminer où se trouve le fichier et quels sont les fonctions à lancer pour réaliser les tests.
 
 - test_create_game_seed_0(): Création d'une partie avec la map 0  
 - test_create_game_seed_5(): Création d'une partie avec la map 5
@@ -12,6 +13,13 @@ Ces tests sont lancés grâce à Pytest.
 - test_truck_dig_0_0(capsys): Tentative de dig en 0,0
 - test_truck_dig_25_4(capsys): Tentative de dig en 25,4
 - test_truck_progress_dig_2(capsys): test de la fonction progress en faisant creuser un camion 0,0
-- test_truck_zigzag_carre(capsys): test d'une stratégie de couverture de la map 
+- test_truck_zigzag_carre(capsys): test d'une stratégie de couverture de la map
+- test_nearest_basic(capsys): test de la fonction permettant au camion d'aller au cristal le plus proche 
+- test_nearest_angle(capsys): test de la fonction permettant au camion d'aller au cristal le plus proche mçeme dans un angle (cf expected)
+- test_get_nearest_crystal_easy(): test de la fonction permettant au camion de détecter le crystal le plus proche
+- test_get_nearest_crystal_further(): test de la fonction permettant au camion de détecter le crystal le plus éloigné (dans sa zone)
+- test_get_nearest_crystal_backward(): test de la fonction permettant au camion de détecter si il a oublié un cristal sur son chemin
+- test_count_crystals_wo_bounds(): test de la fonction de détermination du nombre de cristaux autour de lui
+- test_count_crystals_with_bounds(): test de la fonction de détermination du nombre de cristaux autour de lui, en choisissant si on veut trouver les cristaux un par un ou par paquet.
 
 Les tests sont réalisés avec des maps témoins.
