@@ -18,9 +18,9 @@ Ces tests sont lancés grâce à Pytest.
 - test_nearest_basic(capsys): test de la fonction permettant au camion d'aller au cristal le plus proche 
 - test_nearest_angle(capsys): test de la fonction permettant au camion d'aller au cristal le plus proche mçeme dans un angle (cf expected)
 - test_get_nearest_crystal_easy(): test de la fonction permettant au camion de détecter le crystal le plus proche
-- test_get_nearest_crystal_further(): test de la fonction permettant au camion de détecter le crystal le plus éloigné (dans sa zone)
+- test_get_nearest_crystal_further(): test de la fonction permettant au camion de détecter le crystal le plus proche avec une plus grande range.
 - test_get_nearest_crystal_backward(): test de la fonction permettant au camion de détecter si il a oublié un cristal sur son chemin
-- test_count_crystals_wo_bounds(): test de la fonction de détermination du nombre de cristaux autour de lui
-- test_count_crystals_with_bounds(): test de la fonction de détermination du nombre de cristaux autour de lui, en choisissant si on veut trouver les cristaux un par un ou par paquet.
+- test_count_crystals_wo_bounds(): test de la fonction de détermination du nombre de cristaux sur la map
+- test_count_crystals_with_bounds(): test de la fonction de détermination du nombre de cristaux dans une zone verticale donnée 
 
 Les tests sont réalisés avec des maps témoins.
