@@ -32,8 +32,8 @@ class Crystal:
         if GRID:
             GRID[self.y][self.x] -= 1
 
-    def distance_from(self, x):
-        return abs(self.x - x)
+    def distance_from(self, x, y):
+        return abs(self.x - x) + abs(self.y - y)
 
 
 class Camion:
@@ -162,7 +162,9 @@ def all_trucks_zigzag() -> None:
 
 
 def get_nearest_crystal(crystals, truck):
-    sorted_crystals = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))
+    sorted_crystals = sorted(
+        crystals.values(), key=lambda c: c.distance_from(truck.x, truck.y)
+    )
     for target in sorted_crystals:
         if target.targeted_by is None or target.targeted_by == truck._id:
             return target
