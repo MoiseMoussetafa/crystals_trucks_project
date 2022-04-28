@@ -20,7 +20,7 @@ CRYSTALS = {}
 class Crystal:
     global GRID, CRYSTALS
 
-    def __init__(self, x, y, count) -> None:
+    def __init__(self, x: int, y: int, count: int) -> None:
         self.x = x
         self.y = y
         self.count = count
@@ -32,12 +32,12 @@ class Crystal:
         if GRID:
             GRID[self.y][self.x] -= 1
 
-    def distance_from(self, x, y):
+    def distance_from(self, x: int, y: int) -> int:
         return abs(self.x - x) + abs(self.y - y)
 
 
 class Camion:
-    def __init__(self, id, x, y) -> None:
+    def __init__(self, id: int, x: int, y: int) -> None:
         self._id = id
         self.x = x
         self.y = y
@@ -45,7 +45,7 @@ class Camion:
         self.target = None
         self.nb_tour = 0
 
-    def move(self, x, y):
+    def move(self, x: int, y: int) -> None:
         if x > self.x:
             self.x += 1
         elif x < self.x:
@@ -56,16 +56,16 @@ class Camion:
             self.y -= 1
         print(f"{self.nb_tour} MOVE {self._id} {self.x} {self.y}")
 
-    def dig(self):
+    def dig(self) -> None:
         print(f"{self.nb_tour} DIG {self._id} {self.x} {self.y}")
         self.target.dig()
 
-    def set_target(self, crystal: Crystal):
+    def set_target(self, crystal: Crystal) -> None:
         if crystal:
             self.target = crystal
             crystal.targeted_by = self._id
 
-    def progress(self):
+    def progress(self) -> None:
         if self.target:
             if self.target.x == self.x and self.target.y == self.y:
                 if self.target.count > 0:
@@ -107,7 +107,7 @@ def create_game(seed: int, filename: str) -> tuple:
     return nb_camions, grid, width, height
 
 
-def get_crystals_pos():
+def get_crystals_pos() -> dict:
     global GRID, WIDTH, HEIGHT
 
     crystals = {}
@@ -120,7 +120,7 @@ def get_crystals_pos():
     return crystals
 
 
-def one_truck_zigzag(truck, bounds=None):
+def one_truck_zigzag(truck: Camion, bounds: list = None) -> None:
     global WIDTH, HEIGHT, CRYSTALS
 
     if not bounds:
@@ -161,7 +161,7 @@ def all_trucks_zigzag() -> None:
             top = bottom + div_height
 
 
-def get_nearest_crystal(crystals, truck):
+def get_nearest_crystal(crystals: dict, truck: Camion) -> Crystal:
     sorted_crystals = sorted(
         crystals.values(), key=lambda c: c.distance_from(truck.x, truck.y)
     )
@@ -183,7 +183,7 @@ def get_nearest_crystal(crystals, truck):
     return sorted_crystals[0]
 
 
-def one_truck_nearest(truck, bounds=None):
+def one_truck_nearest(truck: Camion, bounds: list = None) -> None:
     global WIDTH, HEIGHT, CRYSTALS
 
     if not bounds:
@@ -209,7 +209,7 @@ def one_truck_nearest(truck, bounds=None):
             CRYSTALS.pop(f"{target.x}:{target.y}")
 
 
-def count_crystals(bounds=None):
+def count_crystals(bounds: list = None) -> int:
     global GRID, WIDTH, HEIGHT, CRYSTALS
 
     count = 0
@@ -254,7 +254,7 @@ def all_trucks_nearest() -> None:
                 top = bottom + div_height
 
 
-def main(seed, filename):
+def main(seed: int, filename: str):
     global NB_CAMIONS, GRID, WIDTH, HEIGHT, CRYSTALS
 
     NB_CAMIONS, GRID, WIDTH, HEIGHT = create_game(seed, filename)
