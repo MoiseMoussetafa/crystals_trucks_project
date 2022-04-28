@@ -240,7 +240,7 @@ def test_get_nearest_crystal_further():
 
     assert (
         trucks.get_nearest_crystal(trucks.CRYSTALS, trucks.Camion(0, 0, 0))
-        == trucks.CRYSTALS["1:2"]
+        == trucks.CRYSTALS["2:1"]
     )
 
 
