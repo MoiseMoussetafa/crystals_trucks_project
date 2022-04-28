@@ -13,7 +13,7 @@ Ces tests sont lancés grâce à Pytest.
 - test_truck_creation_5_20_3() : Création d'un camion en 20,3 
 - test_truck_dig_0_0(capsys) : Tentative de dig en 0,0
 - test_truck_dig_25_4(capsys) : Tentative de dig en 25,4
-- test_truck_progress_dig_2(capsys) : Test de la fonction progress en faisant creuser un camion 0,0
+- test_truck_progress_dig_2(capsys) : Test de la fonction progress en faisant creuser un camion partant de 0,0 jusqu'à 0,2
 - test_truck_zigzag_carre(capsys) : Test d'une stratégie de couverture de la map
 - test_nearest_basic(capsys) : Test de la fonction permettant au camion d'aller au cristal le plus proche 
 - test_nearest_angle(capsys) : Test de la fonction permettant au camion d'aller au cristal le plus proche même dans un angle (cf expected)
