@@ -62,8 +62,9 @@ Les fonctionnalités du `viewer.py` sont disponibles sur le git correspondant.
 
 ---
 
-### Sources
+### Sources principales
 - https://github.com/jorisoffouga/methode_dev_collaboratif  
 - https://github.com/vpoulailleau/crystal_trucks  
 - https://docs.pytest.org/en/7.1.x/  
+- https://about.codecov.io/  
 
