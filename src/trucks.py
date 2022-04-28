@@ -263,18 +263,10 @@ def main(seed, filename):
         sys.exit(-1)
 
     CRYSTALS = get_crystals_pos()
-    # one_truck_nearest(Camion(0, 0, 0))
-
-    truck = Camion(0, 0, 0)
 
     with open(filename, "a") as f:
         with redirect_stdout(f):
-            # one_truck_zigzag(Camion(0, 0, 0))
             # all_trucks_zigzag()
-
-            # while len(CRYSTALS) > 0:
-            #     one_truck_nearest(truck)
-
             all_trucks_nearest()
 
     sys.exit(0)
