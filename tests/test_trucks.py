@@ -1,14 +1,17 @@
-from fileinput import filename
 import src.trucks as trucks
 import pathlib
 import main
+import pytest
 
 THIS_DIR = pathlib.Path(__file__).parent.__str__()
 MAP_FILE = THIS_DIR + "/map.txt"
 
 
-def test_main():
-    assert main != None
+def test_main_exit():
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main(5, "test_map.txt")
+    assert pytest_wrapped_e.type == SystemExit
+    assert pytest_wrapped_e.value.code == 0
 
 
 def test_create_game_seed_0():
@@ -114,6 +117,7 @@ def test_truck_dig_0_0(capsys):
 
 
 def test_truck_dig_25_4(capsys):
+    trucks.GRID = None
     camion = trucks.Camion(3, 25, 4)
     camion.set_target(trucks.Crystal(25, 4, 1))
     assert camion.target.targeted_by == 3
@@ -150,8 +154,9 @@ def test_truck_zigzag_carre(capsys):
         "5 MOVE 0 0 1",
         "6 DIG 0 0 1",
     ]
+    trucks.NB_CAMIONS = 1
 
-    trucks.one_truck_zigzag(trucks.Camion(0, 0, 0))
+    trucks.all_trucks_zigzag()
     capture = capsys.readouterr()
     assert capture.out.split("\n")[:-1] == expected
 

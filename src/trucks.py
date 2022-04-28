@@ -159,15 +159,16 @@ def all_trucks_zigzag() -> None:
             top = HEIGHT
         else:
             top = bottom + div_height
-            
-            
-def get_nearest_crystal(crystals, truck):    
+
+
+def get_nearest_crystal(crystals, truck):
     sorted_crystals = sorted(crystals.values(), key=lambda c: c.distance_from(truck.x))
     for target in sorted_crystals:
         if target.targeted_by is None or target.targeted_by == truck._id:
             return target
-        
+
     return sorted_crystals[0]
+
 
 def one_truck_nearest(truck, bounds=None):
     global WIDTH, HEIGHT, CRYSTALS
@@ -219,7 +220,7 @@ def all_trucks_nearest() -> None:
         trucks.append(Camion(i, 0, i))
 
     while len(CRYSTALS) > 0:
-        div_height = HEIGHT // NB_CAMIONS
+        div_height = (HEIGHT // NB_CAMIONS) + 1
         bottom = 0
         top = div_height
         for i in range(NB_CAMIONS):
@@ -237,7 +238,7 @@ def all_trucks_nearest() -> None:
             if i == NB_CAMIONS - 2:
                 top = HEIGHT
             else:
-                top = bottom + div_height        
+                top = bottom + div_height
 
 
 def main(seed, filename):
@@ -262,3 +263,5 @@ def main(seed, filename):
             #     one_truck_nearest(truck)
 
             all_trucks_nearest()
+
+    sys.exit(0)
