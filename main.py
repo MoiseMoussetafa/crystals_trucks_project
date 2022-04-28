@@ -1,5 +1,10 @@
 import src.trucks
 import argparse
+import sys
+
+
+def main(seed, filename):
+    return src.trucks.main(seed, filename)
 
 
 if __name__ == "__main__":
@@ -12,4 +17,4 @@ if __name__ == "__main__":
     seed = args.seed
     filename = args.name
 
-    src.trucks.main(seed, filename)
+    sys.exit(main(seed, filename))
