@@ -165,6 +165,17 @@ def get_nearest_crystal(crystals, truck):
     sorted_crystals = sorted(
         crystals.values(), key=lambda c: c.distance_from(truck.x, truck.y)
     )
+    for i in range(1, len(sorted_crystals)):
+        if (
+            sorted_crystals[i].distance_from(truck.x, truck.y)
+            == sorted_crystals[i - 1].distance_from(truck.x, truck.y)
+            and sorted_crystals[i].x < sorted_crystals[i - 1].x
+        ):
+            sorted_crystals[i], sorted_crystals[i - 1] = (
+                sorted_crystals[i - 1],
+                sorted_crystals[i],
+            )
+
     for target in sorted_crystals:
         if target.targeted_by is None or target.targeted_by == truck._id:
             return target
