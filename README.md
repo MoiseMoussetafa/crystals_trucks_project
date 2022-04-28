@@ -46,7 +46,7 @@ git clone https://github.com/MoiseMoussetafa/crystals_trucks_project.git
 
 Depuis le dossier `crystals_trucks_project` :
 ```
-python3 crystals_trucks_project/main.py [seed] [nom_fichier.txt]
+python3 main.py [seed] [nom_fichier.txt]
 ```
 📓*seed* : nombre correspondant à la graine de randomisation afin d'obtenir une carte de jeu semi-aléatoire  
 📓*nom_fichier.txt* : nom du fichier à choisir pour le document texte généré par le `main.py`  
@@ -54,7 +54,7 @@ python3 crystals_trucks_project/main.py [seed] [nom_fichier.txt]
 Copier le fichier généré nommé `[nom_fichier.txt]` dans le dossier `crystal_trucks` précédemment cloné. Puis dans ce dernier :
 ```
 pip3 install arcade serial
-python3 crystal_trucks/viewer.py -i [nom_fichier.txt]
+python3 viewer.py -i [nom_fichier.txt]
 ```
 
 Une interface graphique apparait alors et présente le jeu.  
