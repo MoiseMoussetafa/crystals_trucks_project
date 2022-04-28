@@ -24,3 +24,8 @@ Le fichier `python.yml` permet de réaliser tous nos tests dans un workflow :
 ## Tests unitaires avec Pytest
 Librairie permettant de réaliser des tests unitaires écrits par l’utilisateur pour vérifier le code
 
+---
+
+### Formatage du code avec Black
+Dans le fichier `.pre-commit-config.yml`  
+Formate le code avant les commits. Vérifié par Flake8.
